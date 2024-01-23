@@ -38,46 +38,38 @@ for (const folder of commandFolders) {
   }
 }
 
-console.log(folderPath);
-console.log(commandFolders);
+//EVENTS
+// Bot ready for use.
 
-client.once(Events.ClientReady, (c) => {
-  console.log(`Logged in as ${c.user.tag}!`);
+// client.once(Events.ClientReady, (c) => {
+//   console.log(`Logged in as ${c.user.tag}!`);
+// });
 
-  // const ping = new SlashCommandBuilder()
-  //   .setName("ping")
-  //   .setDescription('Replies with "Pong!"');
-  // //const pingCommand = ping.toJSON();
-  // client.application.commands.create(ping);
-});
+// // Interaction received
+// client.on(Events.InteractionCreate, async (interaction) => {
+//   if (!interaction.isChatInputCommand()) return;
 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+//   const command = interaction.client.commands.get(interaction.commandName);
+//   if (!command) {
+//     console.error(`No command matching ${interaction.commandName} was found.`);
+//   }
 
-  const command = interaction.client.commands.get(interaction.commandName);
-  if (!command) {
-    console.error(`No command matching ${interaction.commandName} was found.`);
-  }
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      });
-    } else {
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      });
-    }
-  }
-  // if (interaction.commandName === "ping") {
-  //   await interaction.reply("Pong!");
-  // }
-});
+//   try {
+//     await command.execute(interaction);
+//   } catch (error) {
+//     console.error(error);
+//     if (interaction.replied || interaction.deferred) {
+//       await interaction.followUp({
+//         content: "There was an error while executing this command!",
+//         ephemeral: true,
+//       });
+//     } else {
+//       await interaction.reply({
+//         content: "There was an error while executing this command!",
+//         ephemeral: true,
+//       });
+//     }
+//   }
+// });
 
 client.login(process.env.DISCORD_TOKEN);
