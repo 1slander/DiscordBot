@@ -14,6 +14,7 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
+client.cooldowns = new Collection();
 client.commands = new Collection();
 
 const folderPath = path.join(__dirname, "commands");
@@ -38,6 +39,20 @@ for (const folder of commandFolders) {
   }
 }
 
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
+  }
+}
 //EVENTS
 // Bot ready for use.
 
